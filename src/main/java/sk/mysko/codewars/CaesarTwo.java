@@ -66,8 +66,4 @@ public class CaesarTwo {
 		return wholeMessage.substring(2).toString();
 	}
 
-	public static void main(String[] args) {
-		CaesarTwo.decode(Arrays.asList("opP DBQUBJ", "O! nz Dbqu", "bjo! pvs g", "fbsgvm usj", "q jt epof;"));
-	}
-
 }
