@@ -1,32 +1,14 @@
 package sk.mysko.advent.code;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
 /**
  * @author boris.brinza
  */
-public class Day2 {
+public class Day2 extends AdventOfCodeBase{
 
-	private String readFile(String path) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(Day2.class.getResourceAsStream(path)));
-		String s = null;
-		StringBuilder ret = new StringBuilder();
-		try {
-			while ((s = reader.readLine()) != null) {
-				ret.append(s).append("\n");
-			}
-			;
-		} catch (Exception e) {
-			System.err.println("Cannot read file:" + path + ", error:" + e.toString());
-			return null;
-		}
-		return  ret.toString();
 
-	}
-	private long runPart1(String input) {
+	protected  long runPart1(String input) {
 		long total = 0;
 
 		for (String line : input.split("(\\n)+")) {
@@ -47,7 +29,7 @@ public class Day2 {
 		return total;
 	}
 
-	private long runPart2(String input) {
+	protected long runPart2(String input) {
 		long totalRibbon = 0;
 		for (String line : input.split("(\\n)+")) {
 			String[] values = line.split("x");

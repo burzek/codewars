@@ -13,27 +13,8 @@ import java.util.stream.IntStream;
 /**
  * @author boris.brinza
  */
-public class Day3 {
-
+public class Day3 extends AdventOfCodeBase {
 	private Set<String> houses = new HashSet<>();
-
-	private String readFile(String path) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(Day3.class.getResourceAsStream(path)));
-		String s = null;
-		StringBuilder ret = new StringBuilder();
-		try {
-			while ((s = reader.readLine()) != null) {
-				ret.append(s).append("\n");
-			}
-			;
-		} catch (Exception e) {
-			System.err.println("Cannot read file:" + path + ", error:" + e.toString());
-			return null;
-		}
-		return  ret.toString();
-
-	}
-
 
 	private String getKey(int x, int y) {
 		return String.valueOf(x) + "/" + String.valueOf(y);
@@ -65,7 +46,7 @@ public class Day3 {
 
 	}
 
-	private long runPart1(String input) {
+	protected long runPart1(String input) {
 		houses = new HashSet<>();
 		houses.add("0/0");
 		processDirections(input);
@@ -74,7 +55,7 @@ public class Day3 {
 
 
 
-	private long runPart2(String input) {
+	protected long runPart2(String input) {
 		houses = new HashSet<>();
 		houses.add("0/0");
 		String x = IntStream.range(0, input.length()).filter(i -> i % 2 == 0).mapToObj(i -> String.valueOf(input.charAt(i)))

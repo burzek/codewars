@@ -6,24 +6,9 @@ import java.io.InputStreamReader;
 /**
  * @author boris.brinza
  */
-public class Day1 {
+public class Day1 extends AdventOfCodeBase {
 
-	private String readFile(String path) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(Day1.class.getResourceAsStream(path)));
-		String s = null;
-		StringBuilder ret = new StringBuilder();
-		try {
-			while ((s = reader.readLine()) != null) {
-				ret.append(s);
-			}
-			;
-		} catch (Exception e) {
-			System.err.println("Cannot read file:" + path + ", error:" + e.toString());
-			return null;
-		}
-		return  ret.toString();
 
-	}
 	private long runPart1(String input) {
 		long floor = 0;
 		floor = input.chars().filter(x -> x == '(').count();
