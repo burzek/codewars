@@ -5,8 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>sk.mysko</groupId>
-    <artifactId>codewars</artifactId>
+    <artifactId>katas</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>codewars</module>
+        <module>AdventOfCode</module>
+    </modules>
 
     <dependencies>
         <dependency>
