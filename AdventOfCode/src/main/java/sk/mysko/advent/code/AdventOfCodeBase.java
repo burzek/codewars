@@ -14,9 +14,8 @@ public abstract  class AdventOfCodeBase {
 		StringBuilder ret = new StringBuilder();
 		try {
 			while ((s = reader.readLine()) != null) {
-				ret.append(s);
+				ret.append(s).append("\n");
 			}
-			;
 		} catch (Exception e) {
 			System.err.println("Cannot read file:" + path + ", error:" + e.toString());
 			return null;

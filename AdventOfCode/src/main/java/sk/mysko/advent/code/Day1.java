@@ -9,14 +9,14 @@ import java.io.InputStreamReader;
 public class Day1 extends AdventOfCodeBase {
 
 
-	private long runPart1(String input) {
+	protected long runPart1(String input) {
 		long floor = 0;
 		floor = input.chars().filter(x -> x == '(').count();
 		floor -= input.chars().filter(x -> x == ')').count();
 		return floor;
 	}
 
-	private long runPart2(String input) {
+	protected long runPart2(String input) {
 		int floor = 0;
 		int pos = 0;
 		for (char c : input.toCharArray()) {
@@ -32,9 +32,9 @@ public class Day1 extends AdventOfCodeBase {
 	public static void main(String[] args) {
 		Day1 day1 = new Day1();
 		String input = day1.readFile("/Day1.input");
-		long floor = new Day1().runPart1(input);
+		long floor = day1.runPart1(input);
 		System.err.println("Floor=" + floor);
-		long positionOfBasement = new Day1().runPart2(input);
+		long positionOfBasement = day1.runPart2(input);
 		System.err.println("Basement=" + positionOfBasement);
 
 	}

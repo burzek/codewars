@@ -1,7 +1,5 @@
 package sk.mysko.advent.code;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.stream.IntStream;
@@ -9,24 +7,8 @@ import java.util.stream.IntStream;
 /**
  * @author boris.brinza
  */
-public class Day6  {
+public class Day6  extends AdventOfCodeBase {
 
-	private String readFile(String path) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(Day1.class.getResourceAsStream(path)));
-		String s = null;
-		StringBuilder ret = new StringBuilder();
-		try {
-			while ((s = reader.readLine()) != null) {
-				ret.append(s).append("\n");
-			}
-
-		} catch (Exception e) {
-			System.err.println("Cannot read file:" + path + ", error:" + e.toString());
-			return null;
-		}
-		return  ret.toString();
-
-	}
 
 	private  int getIndex(int x, int y) {
 		return x + y * 1000;
@@ -56,7 +38,8 @@ public class Day6  {
 
 	}
 
-	private int runPart1(String input) {
+	@Override
+	protected long runPart1(String input) {
 		BitSet bitSet = new BitSet();
 
 		for (String line : input.split("\\n")) {
@@ -81,8 +64,8 @@ public class Day6  {
 	}
 
 
-
-	private int runPart2(String input) {
+	@Override
+	protected long runPart2(String input) {
 		int[] bArr = new int[1000 * 1000];
 		int[] diffArr = new int[] {2, 1, -1};	//oper 1-diff 2-on 3-off
 
@@ -108,9 +91,9 @@ public class Day6  {
 	public static void main(String[] args) {
 		Day6 day6 = new Day6();
 		String input = day6.readFile("/Day6.input");
-		int value = day6.runPart1(input);
+		long value = day6.runPart1(input);
 		System.out.println("lights on:" + value);
-		int brightness = day6.runPart2(input);
+		long brightness = day6.runPart2(input);
 		System.out.println("brightness:" + brightness);
 
 	}
