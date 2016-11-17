@@ -9,18 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>AdventOfCode</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>../vaadin</module>
-    </modules>
+    <artifactId>codinggame</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.6</version>
-        </dependency>
-    </dependencies>
 
 </project>

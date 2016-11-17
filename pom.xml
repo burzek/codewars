@@ -11,6 +11,7 @@
     <modules>
         <module>codewars</module>
         <module>AdventOfCode</module>
+        <module>CodingGame</module>
     </modules>
 
     <dependencies>
