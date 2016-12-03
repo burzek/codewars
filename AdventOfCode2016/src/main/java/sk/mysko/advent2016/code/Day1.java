@@ -3,10 +3,10 @@ package sk.mysko.advent2016.code;
 /**
  * @author boris.brinza
  */
-public class Day1 extends AdventOfCodeBase {
+public class Day1 extends AdventOfCodeBase<Long> {
 
 
-	protected long runPart1(String input) {
+	protected Long runPart1(String input) {
 		int dir = 0;
 		int x = 0;
 		int y = 0;
@@ -26,16 +26,15 @@ public class Day1 extends AdventOfCodeBase {
 				x = dir == 1 ? x + distance : x - distance;
 			}
 		}
-		return Math.abs(x) + Math.abs(y);
+		return (long) (Math.abs(x) + Math.abs(y));
 	}
 
-	protected long runPart2(String input) {
+	protected Long runPart2(String input) {
 		int dir = 0;
 		int x = 250;
 		int y = 250;
 		boolean[][] visited = new boolean[500][500];
 
-		int counter = 0;
 		for(String step : input.split(",")) {
 
 			step = step.trim();
@@ -50,7 +49,7 @@ public class Day1 extends AdventOfCodeBase {
 			if (dir == 0) {
 				for (int i = 1; i <= distance; i++) {
 					if (visited[x][y + i]) {
-						return Math.abs(x - 250) + Math.abs(y + i - 250);
+						return (long) (Math.abs(x - 250) + Math.abs(y + i - 250));
 					}
 					visited[x][y + i] = true;
 				}
@@ -59,7 +58,7 @@ public class Day1 extends AdventOfCodeBase {
 			if (dir == 1) {
 				for (int i = 1; i <= distance; i++) {
 					if (visited[x + i][y]) {
-						return Math.abs(x + i - 250) + Math.abs(y - 250);
+						return (long) (Math.abs(x + i - 250) + Math.abs(y - 250));
 					}
 					visited[x + i][y] = true;
 				}
@@ -68,7 +67,7 @@ public class Day1 extends AdventOfCodeBase {
 			if (dir == 2) {
 				for (int i = 1; i <= distance; i++) {
 					if (visited[x][y - i]) {
-						return Math.abs(x - 250) + Math.abs(y - i - 250);
+						return (long) (Math.abs(x - 250) + Math.abs(y - i - 250));
 					}
 					visited[x][y - i] = true;
 				}
@@ -77,7 +76,7 @@ public class Day1 extends AdventOfCodeBase {
 			if (dir == 3) {
 				for (int i = 1; i <= distance; i++) {
 					if (visited[x - i][y]) {
-						return Math.abs(x - i - 250) + Math.abs(y - 250);
+						return (long) (Math.abs(x - i - 250) + Math.abs(y - 250));
 					}
 					visited[x - i][y] = true;
 				}
@@ -85,7 +84,7 @@ public class Day1 extends AdventOfCodeBase {
 			}
 
 		}
-		return Math.abs(x) + Math.abs(y);
+		return (long) (Math.abs(x) + Math.abs(y));
 	}
 
 	public static void main(String[] args) {
