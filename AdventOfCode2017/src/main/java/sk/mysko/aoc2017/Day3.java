@@ -28,9 +28,10 @@ public class Day3 extends AdventOfCodeBase<Integer> {
 		int j = i;
 		int y = n / 2;
 		int x = (n % 2 == 0) ? y - 1 : y; //shift left for even n's
+		int count = 0;
 		while(j <= ((n * n) - 1 + i)){
 			spiral[y][x] = String.valueOf(j);
-			if (j == 289326) {
+			if (count == 289326) {
 				System.out.println(y + "/" + x);
 				return null;
 			}
@@ -52,6 +53,7 @@ public class Day3 extends AdventOfCodeBase<Integer> {
 				case DOWN:	y++; break;
 			}
 			j++;
+			count++;
 		}
 		return spiral;
 	}
