@@ -13,6 +13,7 @@
         <module>AdventOfCode</module>
         <module>CodingGame</module>
         <module>AdventOfCode2016</module>
+        <module>AdventOfCode2017</module>
     </modules>
 
     <dependencies>

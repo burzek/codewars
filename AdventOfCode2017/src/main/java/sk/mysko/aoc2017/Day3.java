@@ -22,45 +22,59 @@ public class Day3 extends AdventOfCodeBase<Integer> {
 		RIGHT, UP, LEFT, DOWN;
 	}
 
-	private String[][] genUlam(int n, int i){
-		String[][] spiral = new String[n][n];
-		Direction dir = Direction.RIGHT;
-		int j = i;
-		int y = n / 2;
-		int x = (n % 2 == 0) ? y - 1 : y; //shift left for even n's
-		int count = 0;
-		while(j <= ((n * n) - 1 + i)){
-			spiral[y][x] = String.valueOf(j);
-			if (count == 289326) {
-				System.out.println(y + "/" + x);
-				return null;
-			}
-			switch(dir){
+	private void genUlam(){
+		Direction dir = Direction.DOWN;
+		int count = 1;
+		int step = 0;
+		int x = 0;
+		int y = 0;
+		boolean repeat = true;
+		while (repeat) {
+
+			switch (dir) {
 				case RIGHT:
-					if(x <= (n - 1) && spiral[y - 1][x] == null && j > i) dir = Direction.UP; break;
+					dir = Direction.UP;
+					break;
 				case UP:
-					if(spiral[y][x - 1] == null) dir = Direction.LEFT; break;
+					dir = Direction.LEFT;
+					break;
 				case LEFT:
-					if(x == 0 || spiral[y + 1][x] == null) dir = Direction.DOWN; break;
+					dir = Direction.DOWN;
+					break;
 				case DOWN:
-					if(spiral[y][x + 1] == null) dir = Direction.RIGHT; break;
+					dir = Direction.RIGHT;
+					break;
 			}
 
-			switch(dir){
-				case RIGHT:	x++; break;
-				case UP: 	y--; break;
-				case LEFT:	x--; break;
-				case DOWN:	y++; break;
+
+
+			if (dir == Direction.LEFT || dir == Direction.RIGHT) {
+				step += 1;
 			}
-			j++;
-			count++;
+
+
+			if (count + step > 289326) {
+				step -= (count + step) - 289326;
+				repeat = false;
+			}
+
+
+			switch (dir){
+				case RIGHT:	x += step; break;
+				case UP: 	y -= step; break;
+				case LEFT:	x -= step; break;
+				case DOWN:	y += step; break;
+			}
+			count += step;
 		}
-		return spiral;
+
+		System.err.println(x + " " + y);
+
 	}
 
 	@Override
 	protected Integer runPart1(String input) {
-		genUlam(25000, 25000);
+		genUlam();
 		return 0;
 	}
 
