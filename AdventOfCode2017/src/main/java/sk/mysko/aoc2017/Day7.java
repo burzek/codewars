@@ -2,6 +2,7 @@ package sk.mysko.aoc2017;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,6 +51,7 @@ public class Day7 extends AdventOfCodeBase<String> {
 	}
 
 	private void parse(String input) {
+		nodes.clear();
 		String[] lines = input.split("\n");
 		for (String line : lines) {
 			Node node = new Node();
@@ -66,7 +68,9 @@ public class Day7 extends AdventOfCodeBase<String> {
 				for(String c : line.substring(line.indexOf('>') + 1).split(",")) {
 					Node n = findNodeByName(c.trim());
 					n.parentNode = parentNode;
-					parentNode.children.add(n);
+					if (!parentNode.children.contains(n)) {
+						parentNode.children.add(n);
+					}
 					parentNode.totalWeight += n.weight;
 				}
 			}
@@ -82,11 +86,33 @@ public class Day7 extends AdventOfCodeBase<String> {
 		return nodes.stream().filter(n -> n.parentNode == null).map(n -> n.name).findFirst().get();
 	}
 
+	private void findUnbalancedNode(Node n, int level) {
+		long w = 0;
+		int count = 0;
+		n.children.sort(Comparator.comparingInt(o -> o.totalWeight));
+		for (Node cn : n.children) {
+			if (w == 0) {
+				w = cn.totalWeight;
+			} else if (cn.totalWeight != w) {
+				count++;
+			}
+		}
+		if (count == 1) {
+			n.children.stream().forEach(x -> System.out.print(x.name + " (" + x.weight + ") " + (x.totalWeight) + " "));
+			System.out.println();
+		} else {
+			for (Node cn : n.children) {
+				findUnbalancedNode(cn, level + 1);
+			}
+		}
+	}
+
+
 	@Override
 	protected String runPart2(String input) {
 		parse(input);
 		Node n = nodes.stream().filter(node -> node.parentNode == null).findFirst().get();
-		n.children.stream().forEach(node -> System.out.println((node.name + " " + node.totalWeight)));
+		findUnbalancedNode(n, 0);
 		return "";
 	}
 }
