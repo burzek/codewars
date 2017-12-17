@@ -15,9 +15,9 @@ public class Day16 extends AdventOfCodeBase<String> {
 
 	public static void main(String[] args) {
 		Day16 day16 = new Day16();
-		String input = day16.readFile("/Day16.input");
-		System.out.println("result:" + day16.runPart1(input));
-		input = day16.readFile("/Day16b.input");
+//		String input = day16.readFile("/Day16.input");
+//		System.out.println("result:" + day16.runPart1(input));
+		String input = day16.readFile("/Day16b.input");
 		System.out.println("result:" + day16.runPart2(input));
 
 	}
@@ -25,7 +25,7 @@ public class Day16 extends AdventOfCodeBase<String> {
 	@Override
 	protected String runPart1(String input) {
 		List<Character> list = new LinkedList<>();
-		IntStream.range('a', 'q').forEach(c -> list.add((char) c));
+		IntStream.range('a', 'f').forEach(c -> list.add((char) c));
 
 		String[] moves = input.split(",");
 		for (String move : moves) {
@@ -59,17 +59,16 @@ public class Day16 extends AdventOfCodeBase<String> {
 
 		String listStr = runPart1(input);
 
-		int[] shifts = new int['p' - 'a' + 1];
+		int[] shifts = new int['e' - 'a' + 1];
 		for (int i = 0; i < shifts.length; i++) {
 			int charIndex = listStr.charAt(i) - 'a';
-			shifts[charIndex] = i - charIndex ;
+			shifts[charIndex] = 2 * (i - charIndex) % shifts.length;
 			if (shifts[charIndex] < 0) {
 				shifts[charIndex] = shifts.length + shifts[charIndex];
 			}
-			shifts[charIndex] = (1_000_000_000 * shifts[charIndex]) % shifts.length;
 		}
 		char[] ret = new char[16];
-		IntStream.range('a', 'q').forEach(c -> {
+		IntStream.range('a', 'f').forEach(c -> {
 			int newPos = (c - 'a') + shifts[c - 'a'];
 			ret[newPos % shifts.length] =  (char) c;
 		});
