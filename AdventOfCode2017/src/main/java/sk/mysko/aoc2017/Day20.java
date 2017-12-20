@@ -1,36 +1,42 @@
 package sk.mysko.aoc2017;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author boris.brinza 04-Dec-2017.
  */
-public class Day20 extends AdventOfCodeBase<String> {
+public class Day20 extends AdventOfCodeBase<Integer> {
 
 	public static void main(String[] args) {
 		Day20 day20 = new Day20();
 		String input = day20.readFile("/Day20.input");
-		day20.runPart1(input);	//all is done in part1
+		System.out.println(day20.runPart1(input));
+		System.out.println(day20.runPart2(input));
+
 
 	}
 
-	class Particle implements Comparable<Particle> {
+	class Particle {
 		int id;
-		int x,y,z;
-		int vx, vy, vz;
-		int ax, ay, az;
+		long x,y,z;
+		long vx, vy, vz;
+		long ax, ay, az;
 
 		void step() {
 			vx += ax; vy += ay; vz += az;
 			x += vx; y += vy; z += vz;
 		}
-		int getDistance() {
+		long getDistance() {
 			return Math.abs(x) + Math.abs(y) + Math.abs(z);
 		}
-
+		String getKey() {
+			return String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z);
+		}
 	}
 
 	private List<Particle> parseInput(String input) {
@@ -61,22 +67,37 @@ public class Day20 extends AdventOfCodeBase<String> {
 		return particles;
 	}
 
+	Map<String, Integer> buckets = new HashMap<>();
+
 
 	@Override
-	protected String runPart1(String input) {
+	protected Integer runPart1(String input) {
 		List<Particle> particleList = parseInput(input);
-		for (int i = 0; i < 200_000; i++) {		//brute force
+		for (int i = 0; i < 1000; i++) {		//brute force
 			particleList.forEach(Particle::step);
 		}
-		//particleList.stream().min()
-		System.out.println("closest id:" + particleList.get(0).id);
-		return "";
+		Optional<Particle> opt = particleList.stream().min(Comparator.comparingLong(p -> p.getDistance()));
+		return opt.get().id;
 	}
 
 
 	@Override
-	protected String runPart2(String input) {
-		return "";
+	protected Integer runPart2(String input) {
+		List<Particle> particleList = parseInput(input);
+		int destroyed = 0;
+		for (int i = 0; i < 1000; i++) {		//brute force
+			buckets.clear();
+			particleList.forEach(x -> {
+				String key = x.getKey();
+				buckets.putIfAbsent(key, 0);
+				buckets.computeIfPresent(key, (k, v) -> v + 1);
+			});
+			particleList.removeIf(x -> buckets.get(x.getKey()) > 1);
+			particleList.forEach(Particle::step);
+
+		}
+		return (int) particleList.size();
+
 	}
 
 
