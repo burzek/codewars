@@ -8,8 +8,8 @@ public class Day23 extends AdventOfCodeBase<Long> {
 	public static void main(String[] args) {
 		Day23 day23 = new Day23();
 		String input = day23.readFile("/Day23.input");
-//		System.out.println(day23.runPart1(input));
-		System.out.println(day23.runPart2(input));
+		System.out.println(day23.runPart1(input));
+//		System.out.println(day23.runPart2(input));
 
 	}
 
