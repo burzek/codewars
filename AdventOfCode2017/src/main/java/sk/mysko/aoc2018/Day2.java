@@ -1,8 +1,7 @@
-package sk.mysko.aoc2017;
+package sk.mysko.aoc2018;
 
 import java.util.IntSummaryStatistics;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

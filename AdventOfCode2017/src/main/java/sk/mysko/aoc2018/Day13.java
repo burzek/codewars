@@ -1,10 +1,7 @@
-package sk.mysko.aoc2017;
+package sk.mysko.aoc2018;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author boris.brinza 04-Dec-2017.

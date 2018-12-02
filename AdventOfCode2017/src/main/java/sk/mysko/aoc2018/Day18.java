@@ -1,9 +1,7 @@
-package sk.mysko.aoc2017;
+package sk.mysko.aoc2018;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 

@@ -1,7 +1,4 @@
-package sk.mysko.aoc2017;
-
-import java.util.ArrayList;
-import java.util.List;
+package sk.mysko.aoc2018;
 
 /**
  * @author boris.brinza 04-Dec-2017.

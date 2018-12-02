@@ -1,10 +1,4 @@
-package sk.mysko.aoc2017;
-
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+package sk.mysko.aoc2018;
 
 /**
  * @author boris.brinza 04-Dec-2017.
