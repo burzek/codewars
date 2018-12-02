@@ -1,4 +1,4 @@
-package sk.mysko.aoc2018;
+package sk.mysko.aoc2017;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

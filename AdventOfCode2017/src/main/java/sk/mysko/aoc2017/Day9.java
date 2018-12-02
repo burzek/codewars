@@ -1,4 +1,4 @@
-package sk.mysko.aoc2018;
+package sk.mysko.aoc2017;
 
 /**
  * @author boris.brinza 04-Dec-2017.
