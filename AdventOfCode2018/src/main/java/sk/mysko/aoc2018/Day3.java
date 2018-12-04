@@ -1,7 +1,9 @@
 package sk.mysko.aoc2018;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -10,64 +12,79 @@ import java.util.stream.Collectors;
 /**
  * @author boris.brinza 04-Dec-2017.
  */
-public class Day2 extends AdventOfCodeBase<Object> {
+public class Day3 extends AdventOfCodeBase<Long> {
+
+	private class Claim {
+		private long claimId;
+		private int leftMargin;
+		private int topMargin;
+		private int width;
+		private int height;
+		private boolean overlapped;
+
+		private Claim(String line) {
+			this.parseLine(line);
+		}
+
+		private void parseLine(String line) {
+			String parts[] = line.split(" ");
+			claimId = Integer.parseInt(parts[0].substring(1).trim());
+			String[] margins = parts[2].split(",");
+			leftMargin = Integer.parseInt(margins[0].trim());
+			topMargin = Integer.parseInt(margins[1].substring(0, margins[1].length() - 1).trim());
+			String[] size = parts[3].split("x");
+			width = Integer.parseInt(size[0].trim());
+			height = Integer.parseInt(size[1].trim());
+		}
+	}
+
 
 	public static void main(String[] args) {
-		Day2 day2 = new Day2();
-		String input = day2.readFile("/Day2.input");
-		System.out.println("result:" + day2.runPart1(input));
-		System.out.println("result:" + day2.runPart2(input));
-
-
+		Day3 day3 = new Day3();
+		String input = day3.readFile("/Day3.input");
+		System.out.println("result:" + day3.runPart1(input));
+		System.out.println("result:" + day3.runPart2(input));
 	}
 
 	@Override
-	protected Object runPart1(String input) {
-		String[] lines = input.split("\n");
-		int sum2 = 0;
-		int sum3 = 0;
-		for (String line : lines) {
-			Map<String, Long> counts =
-				Arrays
-				.stream(line.split(""))
-				.collect(Collectors.groupingBy(x -> x, Collectors.counting()));
-			sum2 += counts.entrySet().stream().map(Entry::getValue).anyMatch(e -> e == 2) ? 1 : 0;
-			sum3 += counts.entrySet().stream().map(Entry::getValue).anyMatch(e -> e == 3) ? 1 : 0;
-		}
-		return sum2 * sum3;
-	}
-
-	@Override
-	protected Object runPart2(String input) {
-		String[] lines = input.split("\n");
-		for (int i = 0; i < lines.length - 1; i++) {
-			for (int j = i + 1; j < lines.length; j++) {
-				int diff = getDiff(lines[i], lines[j]);
-				if (diff == 1) {
-					return getCommon(lines[i], lines[j]);
+	protected Long runPart1(String input) {
+		//quick and dirty
+		int[][] claims = new int[1000][1000];
+		for (String line : input.split("\n")) {
+			Claim c = new Claim(line);
+			for (int row = c.topMargin; row < c.topMargin + c.height; row++) {
+				for (int col = c.leftMargin; col < c.leftMargin + c.width; col++) {
+					claims[row][col]++;
 				}
 			}
 		}
-		return "???";
-
+		return Arrays.stream(claims).mapToLong(c -> Arrays.stream(c).filter(v -> v > 1).count()).sum();
 	}
 
-	private String getCommon(String line1, String line2) {
-		StringBuilder s = new StringBuilder();
-		for (int i = 0; i < line1.length(); i++) {
-			if (line1.charAt(i) != line2.charAt(i)) {
-				continue;
+	@Override
+	protected Long runPart2(String input) {
+		//quick and dirty
+		Map<Long, Claim> allClaims = new HashMap<>();
+		for (String line : input.split("\n")) {
+			Claim c = new Claim(line);
+			allClaims.put(c.claimId, c);
+		}
+
+		long[][] claims = new long[1000][1000];
+		for (Claim c : allClaims.values()) {
+			for (int row = c.topMargin; row < c.topMargin + c.height; row++) {
+				for (int col = c.leftMargin; col < c.leftMargin + c.width; col++) {
+					if (claims[row][col] != 0) {
+						c.overlapped = true;
+						allClaims.get(claims[row][col]).overlapped = true;
+					}
+					claims[row][col] = c.claimId;
+				}
 			}
-			s.append(line1.charAt(i));
 		}
-		return s.toString();
+
+		return allClaims.values().stream().filter(c -> !c.overlapped).findFirst().map(c -> c.claimId).orElseThrow(() -> new RuntimeException("Not found, error"));
+
 	}
 
-	private int getDiff(String s1, String s2) {
-		int diff = 0;
-		for (int i = 0; i < s1.length(); i++) {
-			diff += (s1.charAt(i) == s2.charAt(i) ? 0 : 1);
-		}
-		return diff;
-	}
 }
