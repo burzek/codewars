@@ -1,10 +1,6 @@
 package sk.mysko.aoc2018;
 
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * @author boris.brinza 04-Dec-2017.
@@ -19,13 +15,11 @@ public class Day5 extends AdventOfCodeBase<Integer> {
 	}
 
 
-	@Override
 	protected Integer runPart1(String input) {
 		String finalPolymer = doReaction(input);
 		return finalPolymer.length();
 	}
 
-	@Override
 	protected Integer runPart2(String input) {
 		int minLength = Integer.MAX_VALUE;
 		for (char c = 'a'; c <= 'z'; c++) {

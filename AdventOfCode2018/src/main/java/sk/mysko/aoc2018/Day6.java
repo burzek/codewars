@@ -1,72 +1,141 @@
 package sk.mysko.aoc2018;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * @author boris.brinza 04-Dec-2017.
  */
 public class Day6 extends AdventOfCodeBase<Integer> {
 
-	private static final int SIZE = 8;
-
 	public static void main(String[] args) {
 		Day6 day6 = new Day6();
 		String input = day6.readFile("/Day6.input");
-		System.out.println("result:" + day6.runPart1(input));
-		System.out.println("result:" + day6.runPart2(input));
+
+		DataMap data = day6.initialize(input);
+		System.out.println("result:" + day6.runPart1(data));
+		System.out.println("result:" + day6.runPart2(data));
 	}
 
 
 	private class Node {
-		char node;
-		int dist;
-		int row;
-		int col;
+		char nodeCode;
+		int nodeRow;
+		int nodeCol;
 
-		public Node(char node, int dist, int row, int col) {
-			this.node = node;
-			this.dist = dist;
-			this.row = row;
-			this.col = col;
+		public Node(char nodeCode, int nodeRow, int nodeCol) {
+			this.nodeCode = nodeCode;
+			this.nodeRow = nodeRow;
+			this.nodeCol = nodeCol;
 		}
 	}
-	List<Node> baseNodes = new ArrayList<>();
 
-	@Override
-	protected Integer runPart1(String input) {
-		Node[][] nodes = new Node[SIZE][SIZE];
-		char name = 'a';
-		for (String line : input.split("\n")) {
-			int row = Integer.parseInt(line.substring(0, line.indexOf(',')).trim());
-			int col = Integer.parseInt(line.substring(line.indexOf(',') + 1).trim());
-			nodes[row][col] = new Node(name++, 0, row, col);
-			baseNodes.add(nodes[row][col]);
-		}
+	private class DataMap {
+		int mapSize;
+		char[][] map;
+		Node[] nodes;
+	}
 
-		for (int i = 0; i < SIZE; i++) {
-			for (int j = 0; j < SIZE; j++) {
-				System.out.print(nodes[i][j] == null ? " . " : nodes[i][j].node + "/" + nodes[i][j].dist);
+	private DataMap initialize(String input) {
+		int maxSize = 0;
+		DataMap ret = new DataMap();
+		String[] lines = input.split("\n");
+		ret.nodes = new Node[lines.length];
+
+		for (int idx = 0; idx < lines.length; idx++) {
+			int col = Integer.parseInt(lines[idx].substring(0, lines[idx].indexOf(',')).trim());
+			int row = Integer.parseInt(lines[idx].substring(lines[idx].indexOf(',') + 1).trim());
+			ret.nodes[idx] = new Node((char) ('a' + idx), row, col);
+			if (col > maxSize) {
+				maxSize = col;
 			}
-			System.out.println("\n");
+			if (row > maxSize) {
+				maxSize = row;
+			}
+		}
+		maxSize = maxSize + 1;
+
+		ret.map = new char[maxSize][maxSize];	//quick and dirty
+		ret.mapSize = maxSize;
+		return ret;
+	}
+
+	protected Integer runPart1(DataMap data) {
+
+		for (int i = 0; i < data.mapSize; i++) {
+			for (int j = 0; j < data.mapSize; j++) {
+				char minNodeCode = '.';
+				int minDist = Integer.MAX_VALUE;
+				for (Node node : data.nodes) {
+					int dist = getDist(node, i, j);
+					if (dist < minDist) {
+						minDist = dist;
+						minNodeCode = node.nodeCode;
+					} else if (dist == minDist) {
+						minNodeCode = '.';	//two nodes same distance
+					}
+					data.map[node.nodeRow][node.nodeCol] = node.nodeCode;
+				}
+				data.map[i][j] = minNodeCode;
+			}
 		}
 
-		//remove base nodes with infinite size
-		for (Node n : baseNodes) {
-
+		int maxCount = 0;
+		for (Node n : data.nodes) {
+			if (isInfiniteNode(data, n.nodeCode)) {
+				continue;
+			}
+			int count = 0;
+			for (int i = 0; i < data.mapSize ; i++) {
+				for (int j = 0; j < data.mapSize; j++) {
+					if (data.map[i][j] == n.nodeCode)
+						count++;
+				}
+			}
+			if (count > maxCount) {
+				maxCount = count;
+			}
 		}
 
-		return 0;
+		return maxCount;
+	}
+
+
+
+
+	protected Integer runPart2(DataMap data) {
+		int regions = 0;
+		for (int i = 0; i < data.mapSize; i++) {
+			for (int j = 0; j < data.mapSize; j++) {
+				int sumDis = 0;
+				for (Node node : data.nodes) {
+					sumDis += getDist(node, i, j);
+				}
+				if (sumDis < 10000) {
+					regions++;
+				}
+
+			}
+		}
+
+
+		return regions;
+	}
+
+
+
+	private boolean isInfiniteNode(DataMap dataMap, char nodeCode) {
+		for (int i = 0; i< dataMap.mapSize; i++) {
+			final int iF = i;
+			if (dataMap.map[0][iF] == nodeCode ||
+					dataMap.map[dataMap.mapSize - 1][iF] == nodeCode ||
+					dataMap.map[iF][0] == nodeCode ||
+					dataMap.map[iF][dataMap.mapSize - 1] == nodeCode) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private int getDist(Node node, int row, int col) {
-		return Math.abs(node.row - row) + Math.abs(node.col - col);
-	}
-
-	@Override
-	protected Integer runPart2(String input) {
-		return 0;
+		return Math.abs(node.nodeRow - row) + Math.abs(node.nodeCol - col);
 	}
 
 }

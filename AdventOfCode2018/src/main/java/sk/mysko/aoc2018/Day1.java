@@ -3,7 +3,6 @@ package sk.mysko.aoc2018;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author boris.brinza 04-Dec-2017.
@@ -19,12 +18,10 @@ public class Day1 extends AdventOfCodeBase<Integer> {
 
 	}
 
-	@Override
 	protected Integer runPart1(String input) {
 		return Arrays.stream(input.split("\n")).mapToInt(Integer::parseInt).sum();
 	}
 
-	@Override
 	protected Integer runPart2(String input) {
 		Set<Integer> frequencies = new HashSet<>();
 		int sum = 0;

@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 /**
  * @author boris.brinza
  */
-public abstract  class AdventOfCodeBase<T> {
+public abstract class AdventOfCodeBase<T> {
 
 	protected  String readFile(String path) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(AdventOfCodeBase.class.getResourceAsStream(path)));
@@ -26,8 +26,6 @@ public abstract  class AdventOfCodeBase<T> {
 
 	}
 
-	protected abstract T runPart1(String input);
-	protected abstract T runPart2(String input);
 
 
 }

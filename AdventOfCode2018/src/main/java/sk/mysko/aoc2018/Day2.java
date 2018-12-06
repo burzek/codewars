@@ -1,10 +1,8 @@
 package sk.mysko.aoc2018;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -21,7 +19,6 @@ public class Day2 extends AdventOfCodeBase<Object> {
 
 	}
 
-	@Override
 	protected Object runPart1(String input) {
 		String[] lines = input.split("\n");
 		int sum2 = 0;
@@ -37,7 +34,7 @@ public class Day2 extends AdventOfCodeBase<Object> {
 		return sum2 * sum3;
 	}
 
-	@Override
+
 	protected Object runPart2(String input) {
 		String[] lines = input.split("\n");
 		for (int i = 0; i < lines.length - 1; i++) {

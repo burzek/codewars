@@ -18,7 +18,6 @@ public class Day4 extends AdventOfCodeBase<Integer> {
 	private Map<Integer, Record> records = new HashMap<>();
 
 
-	@Override
 	protected Integer runPart1(String input) {
 		int overallSum = 0;
 		Record maxRecord = null;
@@ -34,7 +33,6 @@ public class Day4 extends AdventOfCodeBase<Integer> {
 
 	}
 
-	@Override
 	protected Integer runPart2(String input) {
 		Record maxRecord = null;
 		int overallMax = 0;
@@ -92,7 +90,7 @@ public class Day4 extends AdventOfCodeBase<Integer> {
 		Day4 day4 = new Day4();
 		String input = day4.readFile("/Day4.input");
 
-		day4.parse(input);		//set records map
+		day4.parse(input);		//set records nodeMap
 		System.out.println("result:" + day4.runPart1(input));
 		System.out.println("result:" + day4.runPart2(input));
 	}

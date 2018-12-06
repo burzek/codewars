@@ -2,12 +2,7 @@ package sk.mysko.aoc2018;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author boris.brinza 04-Dec-2017.
@@ -46,7 +41,6 @@ public class Day3 extends AdventOfCodeBase<Long> {
 		System.out.println("result:" + day3.runPart2(input));
 	}
 
-	@Override
 	protected Long runPart1(String input) {
 		//quick and dirty
 		int[][] claims = new int[1000][1000];
@@ -61,7 +55,6 @@ public class Day3 extends AdventOfCodeBase<Long> {
 		return Arrays.stream(claims).mapToLong(c -> Arrays.stream(c).filter(v -> v > 1).count()).sum();
 	}
 
-	@Override
 	protected Long runPart2(String input) {
 		//quick and dirty
 		Map<Long, Claim> allClaims = new HashMap<>();
