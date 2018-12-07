@@ -1,10 +1,6 @@
 package sk.mysko.aoc2018;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * @author boris.brinza 07-dec-2018.
@@ -55,10 +51,13 @@ public class Day7 extends AdventOfCodeBase<String> {
 		return false;
 	}
 
+
 	@Override
 	protected String runPart2(String input) {
-		return null;
+		return "";
 	}
+
+
 
 
 	public static void main(String[] args) {
