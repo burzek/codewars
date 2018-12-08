@@ -1,6 +1,7 @@
 package sk.mysko.aoc2018;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * @author boris.brinza 07-dec-2018.
