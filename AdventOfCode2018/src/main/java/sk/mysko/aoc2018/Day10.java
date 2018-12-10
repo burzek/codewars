@@ -29,14 +29,15 @@ public class Day10 extends AdventOfCodeBase<String> {
 
 	@Override
 	protected String runPart1(String input) {
-		String[] entries = input.split(" ");
+		String[] entries = input.split("\n");
 		List<Star> stars = new ArrayList();
 
 		for (String entry : entries) {
-			Integer x = Integer.parseInt(entry.substring(10, 17).trim());
-			Integer y = Integer.parseInt(entry.substring(17, 25).trim());
-			Integer vx = Integer.parseInt(entry.substring(36, 38).trim());
-			Integer vy = Integer.parseInt(entry.substring(39, 41).trim());
+			Integer x = Integer.parseInt(entry.substring(10, entry.indexOf(',', 10)).trim());
+			Integer y = Integer.parseInt(entry.substring(entry.indexOf(',', 10)+1, entry.indexOf('>', 10)).trim());
+			int pos = entry.indexOf("velocity");
+			Integer vx = Integer.parseInt(entry.substring(entry.indexOf('<', pos) + 1, entry.indexOf(',', pos)).trim());
+			Integer vy = Integer.parseInt(entry.substring(entry.indexOf(',', pos) + 1, entry.indexOf('>', pos)).trim());
 			stars.add(new Star(x, y, vx, vy));
 		}
 
@@ -58,6 +59,17 @@ public class Day10 extends AdventOfCodeBase<String> {
 		final int maxY = stars.stream().filter(s -> s.x >= 0 && s.y >= 0).map(s -> s.y).mapToInt(i -> i).max().orElse(0);
 		final int minX = stars.stream().filter(s -> s.x >= 0 && s.y >= 0).map(s -> s.x).mapToInt(i -> i).min().orElse(0);
 		final int maxX = stars.stream().filter(s -> s.x >= 0 && s.y >= 0).map(s -> s.x).mapToInt(i -> i).max().orElse(0);
+
+		boolean[][] text = new boolean[maxY-minY+1][maxX-minX+1];
+		stars.stream().filter(s -> s.x >= minX && s.x <= maxX && s.y >= minY && s.y <= maxY).forEach(s -> text[s.x - minX][s.y - minY] = true);
+		for (int i = 0; i < text[0].length; i++) {
+			for (int j = 0; j < text[0].length; j++) {
+				System.out.print(text[i][j] ? '#' : ' ');
+			}
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println();
 
 	}
 
