@@ -1,7 +1,6 @@
 package sk.mysko.aoc2018;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 /**
  * @author boris.brinza 07-dec-2018.
@@ -9,7 +8,7 @@ import java.util.stream.Collectors;
 public class Day7 extends AdventOfCodeBase<String> {
 
 
-	@Override
+
 	protected String runPart1(String input) {
 		String[] codes = new String['Z' - 'A' + 1];
 
@@ -53,7 +52,7 @@ public class Day7 extends AdventOfCodeBase<String> {
 	}
 
 
-	@Override
+
 	protected String runPart2(String input) {
 		return "";
 	}

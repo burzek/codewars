@@ -2,7 +2,6 @@ package sk.mysko.aoc2018;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author boris.brinza 07-dec-2018.
@@ -61,14 +60,12 @@ public class Day8 extends AdventOfCodeBase<Integer> {
 
 	}
 
-	@Override
 	protected Integer runPart1(String input) {
 		String[] entries = input.split(" ");
 		parse(entries, 0, rootNode);
 		return sumMetadata(rootNode);
 	}
 
-	@Override
 	protected Integer runPart2(String input) {
 		String[] entries = input.split(" ");
 		parse(entries, 0, rootNode);
