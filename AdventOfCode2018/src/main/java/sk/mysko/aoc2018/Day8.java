@@ -1,11 +1,8 @@
 package sk.mysko.aoc2018;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.*;
 
 /**
  * @author boris.brinza 07-dec-2018.
@@ -28,14 +25,15 @@ public class Day8 extends AdventOfCodeBase<Integer> {
 		}
 		int childrenCount = Integer.parseInt(entries[index++]);
 		int metaDataCount = Integer.parseInt(entries[index++]);
+
 		for (int i = 0; i < childrenCount; i++) {
 			index = parse(entries, index, node);
 		}
+
 		for (int i = 0; i < metaDataCount; i++) {
 			int md = Integer.parseInt(entries[index++]);
 			node.metadata.add(md);
 		}
-
 		return index;
 	}
 
@@ -54,8 +52,8 @@ public class Day8 extends AdventOfCodeBase<Integer> {
 		} else {
 			int val = 0;
 			for (int md : rootNode.metadata) {
-				if (md <= rootNode.children.size()) {
-					val += getRootNodeValue(rootNode.children.get(rootNode.children.size() - md));
+				if (md > 0 && md <= rootNode.children.size()) {
+					val += getRootNodeValue(rootNode.children.get(md - 1));
 				}
 			}
 			return val;
