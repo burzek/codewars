@@ -11,7 +11,7 @@ public class Day12 extends AdventOfCodeBase<Integer> {
 
 
 	private Integer runPart1(String input) {
-		boolean[] plants = parse(input);
+//		boolean[] plants = parse(input);
 		return 0;
 	}
 
