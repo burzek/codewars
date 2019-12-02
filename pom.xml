@@ -16,6 +16,7 @@
         <module>codility</module>
         <module>codewars</module>
         <module>CodingGame</module>
+        <module>AdventOfCode2019</module>
     </modules>
 
     <dependencies>
