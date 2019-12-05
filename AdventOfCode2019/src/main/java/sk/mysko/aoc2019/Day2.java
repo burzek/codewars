@@ -1,12 +1,6 @@
 package sk.mysko.aoc2019;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * @author boris.brinza 04-Dec-2017.
@@ -23,64 +17,49 @@ public class Day2 extends AdventOfCodeBase<Integer> {
 	}
 
 	protected Integer runPart1(String input) {
-		Set<String> wire1 = new LinkedHashSet<>();
-
-		String[] wires = input.split("\n");
-
-		int x = 0;
-		int y = 0;
-		for (String linePart : wires[0].split(",")) {
-			char dir = linePart.charAt(0);
-			int steps = Integer.parseInt(linePart.substring(1));
-			for (int i = 0; i < steps; i++) {
-				switch (dir) {
-					case 'L':
-						x--;break;
-					case 'R':
-						x++;break;
-					case 'U':
-						y--;break;
-					case 'D':
-						y++;break;
-				}
-				wire1.add(x + ":" + y);
-
+		Integer[] program = Arrays.stream(input.split(",")).map(Integer::parseInt).toArray(Integer[]::new);
+		program[1] = 12;
+		program[2] = 2;
+		int pos = 0;
+		while (program[pos] != 99) {
+			int op = program[pos];
+			if (op == 1) {
+				program[program[pos + 3]] = program[program[pos + 1]] + program[program[pos + 2]];
+			} else if (op == 2) {
+				program[program[pos + 3]] = program[program[pos + 1]] * program[program[pos + 2]];
 			}
+			pos += 4;
 		}
-
-
-		x = 0;
-		y = 0;
-		int minDistance = Integer.MAX_VALUE;
-		for (String linePart : wires[1].split(",")) {
-			char dir = linePart.charAt(0);
-			int steps = Integer.parseInt(linePart.substring(1));
-			for (int i = 0; i < steps; i++) {
-				switch (dir) {
-					case 'L':
-						x--;break;
-					case 'R':
-						x++;break;
-					case 'U':
-						y--;break;
-					case 'D':
-						y++;break;
-				}
-				if (wire1.contains(x + ":" + y)) {
-					int distance = Math.abs(x) + Math.abs(y);
-					if (distance > 0) {
-						minDistance = Math.min(minDistance, distance);
-					}
-				}
-
-
-			}
-		}
-		return minDistance;
-
+		return program[0];
 	}
 
 	protected Integer runPart2(String input) {
-		return 0;
+		Integer[] program;
+		int verb = 0;
+		int noun = 0;
+		for (;;) {
+			program = Arrays.stream(input.split(",")).map(Integer::parseInt).toArray(Integer[]::new);
+			program[1] = noun;
+			program[2] = verb;
+			int pos = 0;
+			while (program[pos] != 99) {
+				int op = program[pos];
+				if (op == 1) {
+					program[program[pos + 3]] = program[program[pos + 1]] + program[program[pos + 2]];
+				} else if (op == 2) {
+					program[program[pos + 3]] = program[program[pos + 1]] * program[program[pos + 2]];
+				}
+				pos += 4;
+			}
+			if (program[0] == 19690720) {
+				break;
+			}
+			verb++;
+			if (verb == 100) {
+				verb = 0;
+				noun++;
+			}
+		}
+		return noun * 100 + verb;
 	}
 }
