@@ -13,10 +13,10 @@
         <module>AdventOfCode2016</module>
         <module>AdventOfCode2017</module>
         <module>AdventOfCode2018</module>
-        <module>codility</module>
         <module>codewars</module>
         <module>CodingGame</module>
         <module>AdventOfCode2019</module>
+        <module>AdventOfCode2020</module>
     </modules>
 
     <dependencies>
