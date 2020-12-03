@@ -62,3 +62,7 @@ misc.xml
 modules.xml
 vcs.xml
 
+/.idea/.gitignore
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/jarRepositories.xml
+/.idea/codeStyles/Project.xml
