@@ -25,12 +25,13 @@ public class Day7 extends AdventOfCodeBase<Void> {
 
     private class Bag {
         String name;
-        int bagsCount;
+        List<Integer> bagsCount;
         List<Bag> bags;
 
         public Bag(String name) {
             this.name = name;
             this.bags = new ArrayList<>();
+            this.bagsCount = new ArrayList<>();
         }
     }
 
@@ -46,9 +47,9 @@ public class Day7 extends AdventOfCodeBase<Void> {
     }
 
     private long countBags(Bag root) {
-        long count = root.bagsCount + 1;
-        for (Bag bag : root.bags) {
-            count += countBags(bag);
+        long count = 1;
+        for (int i = 0; i < root.bags.size(); i++) {
+            count += root.bagsCount.get(i) * countBags(root.bags.get(i));
         }
         return  count;
     }
@@ -82,15 +83,13 @@ public class Day7 extends AdventOfCodeBase<Void> {
 
             //contains these bags
             String[] container = line.substring(idx + "bags contain".length()).split(",");
-            int count = 0;
             for (String s : container) {
                 String[] parts = s.split(" ");
                 name = parts[2] + parts[3];
                 allBags.putIfAbsent(name, new Bag(name));
                 rootBag.bags.add(allBags.get(name));
-                count += Integer.parseInt(parts[1]);
+                rootBag.bagsCount.add(Integer.parseInt(parts[1]));
             }
-            rootBag.bagsCount = count;
 
         }
         return allBags;
