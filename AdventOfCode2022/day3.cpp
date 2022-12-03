@@ -10,23 +10,20 @@ int solve_part_1(string input) {
     ifstream file(input);
     string line; 
     int sum = 0;
-    unsigned char comp_1[52];
-    unsigned char comp_2[52];
+    unsigned char comp[52];
     
     while (getline(file, line)) {
-        fill_n(comp_1, 52, 0);
-        fill_n(comp_2, 52, 0);
+         fill_n(comp, 52, 0);
         int mid = line.length() / 2;
         for (int pos = 0; pos < line.length(); pos++) {
-            unsigned char c = line[pos];
-            unsigned char* p_comp = (pos < mid ? comp_1 : comp_2);    //which compartment is processing
-            int cVal = (c <= 'Z' ? c - 'A' + 26 : c - 'a');
-            p_comp[cVal] = 1;
+             unsigned char c = line[pos];
+             int cVal = (c <= 'Z' ? c - 'A' + 26 : c - 'a');
+             comp[cVal] |= (1 << (pos < mid ? 0 : 1));
         }
         
         //sum priorities
         for (int i = 0; i < 52; i++) {
-            sum += (comp_1[i] > 0 && comp_2[i] > 0 ? i + 1 : 0);
+            sum += (comp[i] ==  3 ? i + 1 : 0);
         }
     }
     return sum;
@@ -45,7 +42,7 @@ int solve_part_2(string input) {
             for (int pos = 0; pos < line.length(); pos++) {
                 unsigned char c = line[pos];
                 int cVal = (c <= 'Z' ? c - 'A' + 26 : c - 'a');
-                comp[cVal] = comp[cVal] | (1 << elf);
+                comp[cVal] |= (1 << elf);
             }
         }
        
