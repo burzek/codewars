@@ -5,14 +5,8 @@
 
 using namespace std;
 
-// void print_map(unsigned char **f, unsigned char ** visible, int rows, int cols) {
-//     for (int i = 0; i < rows; i++) {
-//         for (int j = 0; j < cols; j++) {
-//             cout << (visible[i][j] ? "_" : " ") << static_cast<char>(f[i][j]+ '0') << (visible[i][j] ? "_": " ") << " ";
-//         }
-//         cout << endl;
-//     }
-// };
+#define WE_VISIBLE 128
+#define NS_VISIBLE 64
 
 void solve(string inputFileName) {
     ifstream file(inputFileName);
@@ -25,14 +19,11 @@ void solve(string inputFileName) {
 
     //map
     unsigned char **forrest = new unsigned char*[rows];
-    unsigned char **visible = new unsigned char*[rows];
     int row = 0;
     while (getline(file, line)) {
         forrest[row] = new unsigned char[cols];
-        visible[row] = new unsigned char[cols];
         for (int i = 0; i < cols; i++) {
             forrest[row][i] = line.at(i) - '0';
-            visible[row][i] = 0;
         }
         row++;
     }
@@ -43,13 +34,13 @@ void solve(string inputFileName) {
         int wm = -1;
         int em = -1;
         for (int j = 0; j < cols; j++) {
-            if (!visible[i][j] && forrest[i][j] > wm) {
+            if (!(forrest[i][j] & WE_VISIBLE) && forrest[i][j]  > wm) {
                 wm = forrest[i][j];
-                visible[i][j] = 1;
+                forrest[i][j] |= WE_VISIBLE;
             }
-            if (!visible[i][cols - j - 1] && forrest[i][cols - j - 1] > em) {
+            if (!(forrest[i][cols - j - 1] & WE_VISIBLE) && forrest[i][cols - j - 1] > em) {
                 em = forrest[i][cols - j - 1];
-                visible[i][cols - j - 1] = 1;
+                forrest[i][cols - j - 1] |= WE_VISIBLE;
             }
         }
     }
@@ -59,13 +50,13 @@ void solve(string inputFileName) {
         int nm = -1;
         int sm = -1;
         for (int j = 0; j < rows; j++) {
-            if (!(visible[j][i] & 2) && forrest[j][i] > nm) {
-                nm = forrest[j][i];
-                visible[j][i] |= 2;
+            if (!(forrest[j][i] & NS_VISIBLE) && (forrest[j][i] & (NS_VISIBLE - 1)) > nm) {
+                nm = forrest[j][i] & (NS_VISIBLE - 1);
+                forrest[j][i] |= NS_VISIBLE;
             }
-            if (!(visible[rows - j - 1][i] & 2) && forrest[rows - j - 1][i] > sm) {
-                sm = forrest[rows - j- 1][i];
-                visible[rows - j - 1][i] |= 2;
+            if (!(forrest[rows - j - 1][i] & NS_VISIBLE) && (forrest[rows - j - 1][i] & (NS_VISIBLE - 1)) > sm) {
+                sm = forrest[rows - j- 1][i] & (NS_VISIBLE - 1);
+                forrest[rows - j - 1][i] |= NS_VISIBLE;
             }
         }
     }
@@ -73,7 +64,7 @@ void solve(string inputFileName) {
     int count = 0;
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            count += (visible[i][j] != 0 ? 1 : 0);
+            count += (forrest[i][j] > 9 ? 1 : 0);
         }
     }
 
