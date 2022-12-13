@@ -8,14 +8,16 @@
 #include <climits>
 
 
-// DOES NOT WORK
-
 using namespace std;
 
 
-void add_edge(vector<unsigned> adj[], unsigned src, unsigned dest) {
-    adj[src].push_back(dest);
-    adj[dest].push_back(src);
+void add_edge(vector<unsigned> adj[], unsigned src, unsigned dest, char src_val, char dest_val) {
+    if (src_val >= dest_val || src_val == dest_val - 1) {
+        adj[src].push_back(dest);
+    }
+    if (dest_val >= src_val || dest_val == src_val - 1) {
+        adj[dest].push_back(src);
+    }
 }
 
 
@@ -77,11 +79,11 @@ void read(string inputFileName,
             line[c] = (line[c] == 'S' ? 'a' : line[c]);
             line[c] = (line[c] == 'E' ? 'z' : line[c]);
 
-            if (c > 0 && abs(line.at(c) - line.at(c - 1)) < 2) {
-                add_edge(adj, vertex_index, vertex_index - 1);
+            if (c > 0) {
+                add_edge(adj, vertex_index - 1 , vertex_index, line.at(c - 1), line.at(c));
             }
-            if (line_p_1.length() > 0 && abs(line.at(c) - line_p_1.at(c)) < 2) {
-                add_edge(adj, vertex_index, vertex_index + cols);
+            if (line_p_1.length() > 0) {
+                add_edge(adj, vertex_index, vertex_index + cols, line.at(c), line_p_1.at(c));
             }
         }
         line = line_p_1;
@@ -96,6 +98,8 @@ void solve(string file_name, int rows, int cols) {
     read(file_name, adj, rows, cols, start_index, end_index);
     unsigned len = BFS(adj, start_index, end_index, cols * rows);
     cout << "Part1: " << len << endl;
+
+
 }
 
 
