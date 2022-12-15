@@ -4,6 +4,8 @@
 #include <sstream>
 #include <vector>
 #include <set>
+#include <algorithm>
+#include <chrono>
 
 #include <boost/algorithm/string.hpp>
 
@@ -12,6 +14,10 @@ using namespace std;
 
 struct BSPair {
     long bx, by, sx, sy;
+};
+
+struct FTPair {
+    long f, t;
 };
 
 void read_map(string file_name, vector<BSPair> &bs) {
@@ -31,33 +37,48 @@ void read_map(string file_name, vector<BSPair> &bs) {
     }
 }
 
-#define ROW 10
-//#define ROW 2000000
+bool compare_function(FTPair p1, FTPair p2) {
+    return p1.f == p2.f ? p1.t <= p2.t : p1.f <= p2.f;
+}
+
+#define ROW 2000000
 void solve(string file_name) {
+    auto start = std::chrono::high_resolution_clock::now();
+
     vector<BSPair> bs_vector;
     read_map(file_name, bs_vector);
 
-    set<long> beacon_forbidden = {};
+    vector<FTPair> range;
     for (auto bs : bs_vector) {
         long hd = abs(bs.bx - bs.sx) + abs(bs.by - bs.sy);
         long ydist = abs(hd - abs(ROW - bs.sy));
         if (ydist > ROW) {
             continue;
         }
-        cout << (bs.sx - ydist) << "...." << (bs.sx + ydist) << endl;
-        for (long x = bs.sx - ydist; x <= bs.sx + ydist; x++) {
-            beacon_forbidden.insert(x);
-        }
+        range.push_back(FTPair {.f = bs.sx - ydist, .t = bs.sx + ydist});
     }
 
+    sort(range.begin(), range.end(), compare_function);
+    long min = range[0].f;
+    long max = range[0].t;
+    long  fcount = 0;
+    for (auto item : range) {
+        if (item.f <= max) {
+            max = std::max(item.t, max);
+        } else {
+            fcount += (max - min + 1);
+            min = item.f;
+            max = item.t;
+        }
+    }
+    fcount += (max - min + 1);
+    
+    auto finish = std::chrono::high_resolution_clock::now();
 
-    cout << "Part1: " << beacon_forbidden.size() - 1 << endl;
-    cout << "Part2: " << 0 << endl;
-
-
+    cout << "Part1: " << fcount - 1 << endl;
+    cout << " time: " << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count()/1000/1000 << " ms" << endl;
     
 }
-
 
 int main(int argc, char const *argv[])
 {
