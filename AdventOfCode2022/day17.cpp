@@ -79,7 +79,7 @@ void solve(string inputFileName) {
     vector<uint> lines;
     
     int jp = 0;
-    for (int rock = 0; rock < 8; rock++) {
+    for (int rock = 0; rock < 2022; rock++) {
          int ypos = lines.size() + 6;
          char s[4];
          s[0] = shapes[rock % 5][0];
