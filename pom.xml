@@ -17,6 +17,7 @@
         <module>CodingGame</module>
         <module>AdventOfCode2019</module>
         <module>AdventOfCode2020</module>
+        <module>AdventOfCode2023</module>
     </modules>
 
     <dependencies>
