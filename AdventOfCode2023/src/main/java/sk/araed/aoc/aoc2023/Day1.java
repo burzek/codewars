@@ -3,11 +3,11 @@ package sk.araed.aoc.aoc2023;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Day1 extends AocBase<Integer> {
+public class Day1 {
 
   public static void main(String[] args) {
     Day1 day1 = new Day1();
-    String[] input = day1.readInputToLines("/day1.input");
+    String[] input = AocHelper.readInputToLines("/day1.input");
     System.out.println("day1(1) = " + day1.runPart1(input));
     System.out.println("day1(2) = " + day1.runPart2(input));
   }
@@ -33,29 +33,16 @@ public class Day1 extends AocBase<Integer> {
   }
 
   private String fixLine(String line) {
-    final String[] patterns = new String[]{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    int minIdx;
-    do {
-      minIdx = Arrays.stream(patterns).map(line::indexOf).filter(idx -> idx != -1)
-          .min(Comparator.naturalOrder())
-          .orElse(-1);
-      if (minIdx != -1) {
-        int patternIdx = switch (line.substring(minIdx, minIdx + 2)) {
-          case "on" -> 0;
-          case "tw" -> 1;
-          case "th" -> 2;
-          case "fo" -> 3;
-          case "fi" -> 4;
-          case "si" -> 5;
-          case "se" -> 6;
-          case "ei" -> 7;
-          case "ni" -> 8;
-          default -> throw new IllegalStateException("Unexpected value: " + line.substring(minIdx, 2));
-        };
-        line = line.replaceFirst(patterns[patternIdx], Integer.toString(patternIdx + 1));
-      }
-    } while (minIdx != -1);
-    return line;
+    return line
+        .replaceAll("one", "o1e")
+        .replaceAll("two", "t2o")
+        .replaceAll("three", "t3e")
+        .replaceAll("four", "f4r")
+        .replaceAll("five", "f5e")
+        .replaceAll("six", "s6x")
+        .replaceAll("seven", "s7n")
+        .replaceAll("eight", "e8h")
+        .replaceAll("nine", "n9e");
   }
 
 

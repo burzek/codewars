@@ -7,12 +7,12 @@ import java.util.Objects;
 /**
  * @author boris.brinza
  */
-public abstract class AocBase<T> {
+public class AocHelper {
 
-  protected String readInput(final String path) {
+  public static String readInput(final String path) {
     final BufferedReader reader =
         new BufferedReader(new InputStreamReader(
-            Objects.requireNonNull(AocBase.class.getResourceAsStream(path))));
+            Objects.requireNonNull(AocHelper.class.getResourceAsStream(path))));
     String s = null;
     final StringBuilder ret = new StringBuilder();
     try {
@@ -29,8 +29,8 @@ public abstract class AocBase<T> {
 
   }
 
-  protected String[] readInputToLines(final String path) {
-    return readInput(path).split(System.lineSeparator());
+  public static String[] readInputToLines(final String path) {
+    return Objects.requireNonNull(AocHelper.readInput(path)).split(System.lineSeparator());
   }
 
 
