@@ -1,7 +1,10 @@
 package sk.araed.aoc.aoc2023;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class Day3 {
 
@@ -58,15 +61,22 @@ public class Day3 {
 
       for (int c = 0; c < line.length(); c++) {
         if (line.charAt(c) == '*') {
-          sum += getPossibleGear(l, c, prevLine, line, nextLine);
+          sum += getPossibleGear(c, prevLine, line, nextLine);
         }
       }
     }
     return sum;
   }
 
-  private long getPossibleGear(final int l, final int c, final String prevLine, final String line, final String nextLine) {
-   return 0;
+  private Long scanForGear(String line, int pos) {
+    while (pos > 0 && Character.isDigit(line.charAt(pos - 1))) pos--;
+    StringBuilder val = new StringBuilder();
+    while (pos < line.length() && Character.isDigit(line.charAt(pos))) {
+      val.append(line.charAt(pos));
+      pos++;
+    }
+
+    return val.isEmpty() ? 0L : Long.parseLong(val.toString());
   }
 
   private boolean isAdjecent(final int col, final String prevLine, final String line, final String nextLine) {
@@ -83,9 +93,46 @@ public class Day3 {
   }
 
 
-
   private boolean isMarker(char val) {
     return val != '.' && !Character.isDigit(val);
+  }
+
+
+
+
+  private long getPossibleGear(final int c, final String prevLine, final String line, final String nextLine) {
+    List<Long> gears = new ArrayList<>();
+
+    long gear = scanForGear(line, c);
+    gears.add(gear);
+
+    gear = scanForGear(line, c + 1);
+    gears.add(gear);
+
+
+    if (Character.isDigit(prevLine.charAt(c))) {
+      gear = scanForGear(prevLine, c);
+      gears.add(gear);
+    } else {
+      gear = scanForGear(prevLine, c);
+      gears.add(gear);
+      gear = scanForGear(prevLine, c + 1);
+      gears.add(gear);
+    }
+
+    if (Character.isDigit(nextLine.charAt(c))) {
+      gear = scanForGear(nextLine, c);
+      gears.add(gear);
+    } else {
+      gear = scanForGear(nextLine, c);
+      gears.add(gear);
+      gear = scanForGear(nextLine, c + 1);
+      gears.add(gear);
+
+    }
+
+    return gears.stream().filter(g -> g != 0L).count() == 2L ?
+        gears.stream().filter(g -> g != 0).reduce(1L, (a, b) -> a * b) : 0L;
   }
 
 }
