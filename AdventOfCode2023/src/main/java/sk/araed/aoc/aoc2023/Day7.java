@@ -42,16 +42,13 @@ public class Day7 {
   }
 
   private BigInteger runPart1(String[] input) {
-    hands.sort(new Comparator<Hand>() {
-      @Override
-      public int compare(final Hand h1, final Hand h2) {
-        if (h1.value == h2.value) {
-          int i = 0;
-          while (h1.cards.charAt(i) == h2.cards.charAt(i)) i++;
-          return cards.indexOf(h2.cards.charAt(i)) - cards.indexOf(h1.cards.charAt(i));
-        } else {
-          return h1.value - h2.value;
-        }
+    hands.sort((h1, h2) -> {
+      if (h1.value == h2.value) {
+        int i = 0;
+        while (h1.cards.charAt(i) == h2.cards.charAt(i)) i++;
+        return cards.indexOf(h2.cards.charAt(i)) - cards.indexOf(h1.cards.charAt(i));
+      } else {
+        return h1.value - h2.value;
       }
     });
 
