@@ -9,19 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 public class Day7 {
-
-  final String cards = "AKQJT987654321";
-  final List<Hand> hands = new ArrayList<>();
-
-  public static void main(String[] args) {
-    Day7 day7 = new Day7();
-    String[] input = AocHelper.readInputToLines("/day7.input");
-    day7.parse(input);
-    System.out.println("day7(1) = " + day7.runPart1(input));
-    System.out.println("day7(2) = " + day7.runPart2(input));
-  }
 
   static class Hand {
     String cards;
@@ -34,14 +25,25 @@ public class Day7 {
       this.value = value;
     }
   };
+  final String cards = "AKQJT987654321";
+  final List<Hand> hands = new ArrayList<>();
 
-  private void parse(String[] lines) {
+  public static void main(String[] args) {
+    Day7 day7 = new Day7();
+    String[] input = AocHelper.readInputToLines("/day7.input");
+    day7.parse(input);
+    System.out.println("day7(1) = " + day7.runPart1());
+    System.out.println("day7(2) = " + day7.runPart2(input));
+  }
+
+
+  private void parse(final String[] lines) {
     for (String line : lines) {
       hands.add(new Hand(line.substring(0, 5), Long.parseLong(line.substring(6)), getScore(line.substring(0, 5))));
     }
   }
 
-  private BigInteger runPart1(String[] input) {
+  private long runPart1() {
     hands.sort((h1, h2) -> {
       if (h1.value == h2.value) {
         int i = 0;
@@ -52,12 +54,15 @@ public class Day7 {
       }
     });
 
-    BigInteger sum = BigInteger.valueOf(0L);
-    int idx = 1;
-    for (Hand h : hands) {
-      sum = sum.add(BigInteger.valueOf(idx++ * h.bid));
-    }
-    return sum;
+    return LongStream
+        .range(0, hands.size())
+        .reduce(0L, (sum, idx) -> sum + hands.get((int) idx).bid * (idx + 1));
+
+  }
+
+
+  private long runPart2(String[] lines) {
+    return 0L;
   }
 
   private int getScore(final String hand) {
@@ -97,9 +102,6 @@ public class Day7 {
     return 1;
   }
 
-  private long runPart2(String[] lines) {
-    return 0L;
-  }
 
 
 
