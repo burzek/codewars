@@ -9,36 +9,19 @@ import java.util.Set;
 
 public class Day16 {
 
-  //  char [][] map = new char[120][120];
-  int rows;
-  int cols;
-
   public static void main(String[] args) {
     Day16 day16 = new Day16();
     String[] input = AocHelper.readInputToLines("/day16.input");
-    day16.parse(input);
     System.out.println("day16(1) = " + day16.runPart1(input));
     System.out.println("day16(2) = " + day16.runPart2(input));
   }
 
-  private void parse(final String[] input) {
-    rows = input.length;
-    cols = input[0].length();
-  }
 
   enum Direction {
-    N(0, -1), E(1, 0), S(0, 1), W(-1, 0);
-
-    private final int dx;
-    private final int dy;
-
-    Direction(final int dx, final int dy) {
-      this.dx = dx;
-      this.dy = dy;
-    }
+    N,E,S,W
   }
 
-  class Beam {
+  static class Beam {
 
     int px;
     int py;
@@ -90,11 +73,14 @@ public class Day16 {
   }
 
   private long runPart1(final String[] input) {
-    Set<Integer> energizedSet = new HashSet<>();
+    final int rows = input.length;
+    final int cols = input[0].length();
+    final Set<Integer> energizedSet = new HashSet<>();
+
     int[] last10EnergizedCount = new int[10];
     int l10idx = 0;
 
-    List<Beam> beams = new ArrayList<>();
+    final List<Beam> beams = new ArrayList<>();
     beams.add(new Beam(0, 0, Direction.E));
     boolean beamsSame = false;
     while (!beamsSame) {
