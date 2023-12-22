@@ -4,8 +4,10 @@ package sk.araed.aoc.aoc2023;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Day18 {
 
@@ -56,23 +58,39 @@ public class Day18 {
     }
     printMap();
 
-    //fill
+    //fill  scanline
     for (r = 0; r < rows; r++) {
+      List<Integer> p = new ArrayList<>();
       c = 0;
-      while (c < cols) {
-        while (c < cols && !map[r][c]) {
+      boolean high = false;
+      while (c < cols - 1) {
+        if (map[r][c] && !map[r][c + 1]) {
+          p.add(c);
+          high = true;
+        }
+        if (high && !map[r][c] && map[r][c + 1]) {
+          p.add(c);
+          high = false;
           c++;
+          while (map[r][c]) c++;
         }
         c++;
-        //inside
-        while (c < cols && !map[r][c]) {
-          map[r][c] = true;
-          c++;
-        }
-
-        c++;
-
       }
+
+
+      System.out.println(p.stream().map(Object::toString).collect(Collectors.joining(",")));
+
+      Iterator<Integer> iter = p.iterator();
+      while (iter.hasNext()) {
+        int f = iter.next();
+        if (iter.hasNext()) {
+          int t = iter.next();
+          for (int fc = f; fc <= t; fc++) {
+            map[r][fc] = true;
+          }
+        }
+      }
+
     }
     printMap();
 
@@ -82,8 +100,7 @@ public class Day18 {
   }
 
   private void printMap() {
-    for (int r = 0; r < 40; r++) {//rows + 1; r++) {
-//      System.out.print(r);
+    for (int r = 0; r < rows + 1; r++) {
       for (int c = 0; c < cols + 1; c++) {
         System.out.print(map[r][c] ? "#" : ".");
       }
