@@ -59,20 +59,30 @@ public class Day18 {
     printMap();
 
     //fill  scanline
+//    for (r = 0; r < rows; r++) {
+//      List<Integer> p = new ArrayList<>();
+//      c = 0;
+//      boolean high = false;
+//      while (c < cols - 1) {
+//        if (map[r][c] && !map[r][c + 1]) {
+//          p.add(c);
+//          high = true;
+//        }
+//        if (high && !map[r][c] && map[r][c + 1]) {
+//          p.add(c);
+//          high = false;
+//          c++;
+//          while (map[r][c]) c++;
+//        }
+//        c++;
+//      }
+
     for (r = 0; r < rows; r++) {
       List<Integer> p = new ArrayList<>();
       c = 0;
-      boolean high = false;
       while (c < cols - 1) {
-        if (map[r][c] && !map[r][c + 1]) {
-          p.add(c);
-          high = true;
-        }
-        if (high && !map[r][c] && map[r][c + 1]) {
-          p.add(c);
-          high = false;
-          c++;
-          while (map[r][c]) c++;
+        if (!map[r][c] && map[r][c + 1]) {
+          p.add(c + 1);
         }
         c++;
       }
