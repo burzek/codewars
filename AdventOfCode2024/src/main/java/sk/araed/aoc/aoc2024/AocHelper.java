@@ -1,7 +1,9 @@
 package sk.araed.aoc.aoc2024;
 
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -34,5 +36,14 @@ public class AocHelper {
   }
 
 
+
+  public static char[][] readInputToMat(final String path) {
+    final String[] lines = Objects.requireNonNull(AocHelper.readInput(path))
+        .split(System.lineSeparator());
+    return Arrays.stream(lines)
+        .map(String::toCharArray)
+        .toArray(char[][]::new);
+
+  }
 
 }
