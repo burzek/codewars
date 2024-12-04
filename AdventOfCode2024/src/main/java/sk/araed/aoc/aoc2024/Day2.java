@@ -21,7 +21,26 @@ public class Day2 {
   }
 
   private long runPart2(final String[] input) {
-    return -1;
+    long count = 0;
+    for (String line : input) {
+      String[] sliced = slice(line);
+      count += (isSafe(line) || Arrays.stream(sliced).anyMatch(this::isSafe)) ? 1 : 0;
+    }
+    return count;
+  }
+
+  private String[] slice(String line) {
+    String[] numbers = line.split(" ");
+
+    // Generate the array of strings with one number dropped at each position
+    return IntStream.range(0, numbers.length)
+        .mapToObj(i -> IntStream.range(0, numbers.length)
+            .filter(j -> j != i) // Exclude the index i
+            .mapToObj(j -> numbers[j])
+            .reduce((a, b) -> a + " " + b)
+            .orElse(""))
+        .toArray(String[]::new);
+
   }
 
   private boolean isSafe(String line) {
