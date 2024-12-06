@@ -22,20 +22,16 @@ public class Day6 {
 
   private long runPart1(char[][] map, int r, int c) {
     Set<Integer> positions = new HashSet<>();
+
     int dr = -1;
     int dc = 0;
     while (r >= 0 && r < map.length && c >= 0 && c < map[0].length) {
       positions.add(codePosition(r, c));
-      r += dr;
-      c += dc;
-      if (r < 0 || c < 0 || r >= map.length || c >= map[0].length) {
-        break;
+      if (r + dr < 0 || c + dc < 0 || r +  dr >= map.length || c + dc >= map[0].length) {
+        return positions.size();
       }
 
-      if (map[r][c] == '#') {
-        r -= dr;
-        c -= dc;
-
+      if (map[r + dr][c + dc] == '#') {
         if (dr == 0) {
           dr = dc;
           dc = 0;
@@ -44,8 +40,10 @@ public class Day6 {
           dr = 0;
         }
       }
+      r += dr;
+      c += dc;
     }
-    return positions.size();
+    return -1;
   }
 
   private Integer codePosition(int x, int y) {
