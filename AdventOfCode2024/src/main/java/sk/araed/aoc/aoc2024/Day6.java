@@ -25,9 +25,7 @@ public class Day6 {
     int dr = -1;
     int dc = 0;
     while (r >= 0 && r < map.length && c >= 0 && c < map[0].length) {
-//      printMap(map);
       positions.add(codePosition(r, c));
-//      map[r][c] = 'x';
       r += dr;
       c += dc;
       if (r < 0 || c < 0 || r >= map.length || c >= map[0].length) {
@@ -46,19 +44,8 @@ public class Day6 {
           dr = 0;
         }
       }
-//      map[r][c] = '0';
     }
     return positions.size();
-  }
-
-  private void printMap(char[][] map) {
-    for (int i = 0; i < map.length; i++) {
-      for (int j = 0; j < map[i].length; j++) {
-        System.out.print(map[i][j] + " ");
-      }
-      System.out.println();
-    }
-    System.out.println("-----------------------");
   }
 
   private Integer codePosition(int x, int y) {
