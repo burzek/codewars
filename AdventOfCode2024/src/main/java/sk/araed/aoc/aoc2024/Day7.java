@@ -12,7 +12,7 @@ public class Day7 {
     Day7 day7 = new Day7();
     String[] lines = AocHelper.readInputToLines("/day7.input");
     System.out.println("day7(1) = " + day7.runPart1(lines));
-    //System.out.println("day7(2) = " + day7.runPart2(lines));
+    System.out.println("day7(2) = " + day7.runPart2(lines));
   }
 
   private long runPart1(String[] lines) {
@@ -22,25 +22,55 @@ public class Day7 {
       long result = parseResult(line);
       long[] nums = parseNumbers(line);
 
-      if (leadToResult(nums[0], result, Arrays.copyOfRange(nums, 1, nums.length))) {
+      if (leadToResult(nums[0], result, nums, 1)) {
         sum += result;
       }
-
-
-
     }
     return sum;
   }
 
-  private boolean leadToResult(long acc, long result, long[] nums) {
-    if (nums.length == 0) {
+  private long runPart2(String[] lines) {
+    long sum = 0;
+
+    for (String line : lines) {
+      long result = parseResult(line);
+      long[] nums = parseNumbers(line);
+
+      if (leadToResultWithConcat(nums[0], result, nums, 1)) {
+        sum += result;
+      }
+    }
+    return sum;
+  }
+
+
+  private boolean leadToResult(long acc, long result, long[] nums, int numPos) {
+    if (nums.length == numPos) {
       return acc == result;
     } else {
-      boolean ok = leadToResult(acc + nums[0], result, Arrays.copyOfRange(nums, 1, nums.length));
-      if (!ok) {
-        ok = leadToResult(acc * nums[0], result, Arrays.copyOfRange(nums, 1, nums.length));
+      return
+          leadToResult(acc + nums[numPos], result, nums, numPos + 1) ||
+          leadToResult(acc * nums[numPos], result, nums, numPos + 1);
+    }
+  }
+
+  private boolean leadToResultWithConcat(long acc, long result, long[] nums, int numPos) {
+    if (numPos == nums.length) {
+      return acc == result;
+    } else {
+      long concat = acc;
+      for (int i = numPos; i < nums.length; i++) {
+        if (
+            leadToResultWithConcat(concat + nums[i], result, nums, i + 1) ||
+            leadToResultWithConcat(concat * nums[i], result, nums, i + 1)) {
+          return true;
+        }
+        concat = Long.parseLong("" + concat + nums[i]);
+        if (concat == result) {
+          return true;
+        }
       }
-      return ok;
+      return false;
     }
   }
 
