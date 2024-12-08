@@ -21,37 +21,28 @@ public class Day8 {
     int maxRow = map.length;
     int maxCol = map[0].length;
 
-    Map<Character, List<Position>> ant = parseAntennasMap(map);
-    System.out.println("day8(1) = " + day8.runPart1(ant, maxRow, maxCol));
-    System.out.println("day8(2) = " + day8.runPart2(ant, maxRow, maxCol));
+    Map<Character, List<Position>> antennas = parseAntennasMap(map);
+    day8.run(antennas, maxRow, maxCol);
   }
 
-  private long runPart1(Map<Character, List<Position>> ant, int maxRow, int maxCol) {
+  private void run(Map<Character, List<Position>> antennas, int maxRow, int maxCol) {
     Set<Position> antinodes = new HashSet<>();
+    Set<Position> antinodesHarmonical = new HashSet<>();
 
-    ant.values().forEach(positions -> {
+
+    antennas.values().forEach(positions -> {
       for (int i = 0; i < positions.size(); i++) {
         for (int j = i + 1; j < positions.size(); j++) {
           addAntiNode(antinodes, positions.get(i), positions.get(j), maxRow, maxCol);
+          addAntiNodeHarmonical(antinodesHarmonical, positions.get(i), positions.get(j), maxRow, maxCol);
         }
       }
     });
-    return antinodes.size();
+
+    System.out.println("day8(1): " + antinodes.size());
+    System.out.println("day8(2): " + antinodesHarmonical.size());
   }
 
-
-  private long runPart2(Map<Character, List<Position>> ant, int maxRow, int maxCol) {
-    Set<Position> antinodes = new HashSet<>();
-
-    ant.values().forEach(positions -> {
-      for (int i = 0; i < positions.size(); i++) {
-        for (int j = i + 1; j < positions.size(); j++) {
-          addAntiNodeHarmonical(antinodes, positions.get(i), positions.get(j), maxRow, maxCol);
-        }
-      }
-    });
-    return antinodes.size();
-  }
 
   private void addAntiNode(Set<Position> antinodes, Position from, Position to, int maxRow, int maxCol) {
     int dr = to.row - from.row;
@@ -66,6 +57,8 @@ public class Day8 {
   }
 
   private void addAntiNodeHarmonical(Set<Position> antinodes, Position from, Position to, int maxRow, int maxCol) {
+    antinodes.add(from);
+    antinodes.add(to);
     int dr = to.row - from.row;
     int dc = to.col - from.col;
 
